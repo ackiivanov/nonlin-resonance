@@ -1,0 +1,116 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage[backend=biber]{biblatex}
+\addbibresource{ref.bib}
+
+\usepackage{amsmath}
+\usepackage{commath}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\usepackage{enumitem}[leftmargin=0pt]
+\usepackage{multicol}
+\usepackage{yfonts}
+\usepackage{verbatim}
+\usepackage{bm}
+\usepackage{float}
+
+\renewcommand{\vec}[1]{\bm{\mathrm{#1}}}
+
+
+\begin{document}
+
+\title{Resonance Curve of a Physical Pendulum}
+\author{Aleksandar Ivanov}
+\date{\today}
+\maketitle
+
+\section{Problem statement}
+
+We excite a physical pendulum with a sinusoidal driving torque in such a way that it achieves a significant amplitude. Describe the shape of the nonlinear resonance curve.
+
+\section{Mathematical setup}
+
+To describe a physical pendulum we use the rotational equivalent of Newton's II. law to write down a differential equation for the angular variable $\theta$
+%
+\begin{align}
+I \ddot{\theta} = -mgl \sin(\theta) - b \dot{\theta} + M_0 \sin(\omega t)
+\end{align}
+
+This equation, as usual, has the restorative torque due to gravity $-mgl\sin(\theta)$, where $m$ is the mass, $g$ the acceleration due to gravity and $l$ is the distance between the pivot and the center of mass of the pendulum.
+
+We have also included a damping term $-b \dot{\theta}$, which we know reigns in the infinities we get exactly at resonance, at least in the linear approximation of the problem.
+
+The final term is the driving torque $M_0 \sin(\omega t)$, where $M_0$ is the driving amplitude and $\omega$ is the driving angular frequency.
+
+To get a better grasp on how the values of the parameters influence the equation and eventual solution we perform a nondimensionalization by redefining time as $\tau = \omega_0 t$ (while continuing to use dot notation to mean derivative with respect to $\tau$). Further defining the quantities
+%
+\begin{align}
+&\omega_0^2 = \frac{mgl}{I}& &\gamma = \frac{b}{2I \omega_0}& &\psi_0 = \frac{M_0}{I \omega_0^2}&
+\end{align}\label{diffeq}
+%
+we get the equation
+%
+\begin{align}
+\ddot{\theta} + 2\gamma \dot{\theta} + \sin(\theta) = \psi_0 \sin(\omega \tau)
+\end{align}
+
+
+%WIP
+Other ways to nondimensionalize are also possible depending on which time scale we choose to use. Of the three possibilities, $1/\gamma$ would, in most cases, be too big while $1/\omega$ has the drawback that we would like to vary $\omega$ to get the resonance curve. This leaves us with $1/\omega_0$ as the most sensible choice.
+%WIP
+
+
+\section{Methods}
+
+Firstly, we will extract as much information about the solutions as possible analytically. Because the equation we're solving is clearly nonlinear, we resort to using perturbation theory. Thus, we insert a small parameter $\epsilon$ that will help us linearize the equation
+%
+\begin{align}
+\ddot{\theta} + 2\gamma \dot{\theta} + \sin(\epsilon \theta) = \psi_0 \sin(\omega \tau)
+\end{align}
+%
+and we look for a solution of the form
+%
+\begin{align}
+\theta(\tau) = \sum_{\alpha=0}^{\infty} \theta_{\alpha}(\tau) \, \epsilon^{\alpha}
+\end{align}
+
+In the end we will set $\epsilon = 1$ to get information about the solution of the original equation. (We will, in general, not get the full solution because of convergence issues for the infinite sums)
+
+Using the Taylor expansion $\sin(x) = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n+1)!} x^{2n+1}$ for sine and writing the first few terms in powers of $\epsilon$, we get
+%
+\begin{align}
+\sin(\epsilon \theta) = \epsilon \left[\theta_0\right] + \epsilon^2 \left[\theta_1\right] + \epsilon^3 \left[\theta_2 - \frac{1}{6} \theta_0^3\right] + \epsilon^4 \left[\theta_3 - \frac{1}{2}\theta_1\theta_0^2\right] + \mathcal{O}(\epsilon^5)
+\end{align}
+%
+giving us the equations
+%
+\begin{align}
+\ddot{\theta_0} + 2\gamma \dot{\theta_0} &= \psi_0 \sin(\omega \tau) \\
+\ddot{\theta_1} + 2\gamma \dot{\theta_1} &= -\theta_0 \\
+\ddot{\theta_2} + 2\gamma \dot{\theta_2} &= -\theta_1 \\
+\ddot{\theta_3} + 2\gamma \dot{\theta_3} &= -\theta_2 + \frac{1}{6}\theta_0^3 \\
+\ddot{\theta_4} + 2\gamma \dot{\theta_4} &= -\theta_3 + \frac{1}{2}\theta_1\theta_0^2
+\end{align}
+
+The solutions for the different $\theta_{\alpha}$ will in general be some combination of... (WIP)
+
+
+have a constant part, a polynomial times a decaying exponential (the infinite sum of which conspires to form the decaying oscillation of the system without driving) and an oscillatory part due to the driving. For example the solution for $\theta_0$ is
+%
+\begin{align}
+\theta_0 = A \exp(-2\gamma \tau) + B - \frac{\psi_0}{\omega \sqrt{\omega^2 + 4\gamma^2}}\sin\left(\omega \tau + \arctan\left(\frac{2\gamma}{\omega}\right)\right)
+\end{align}
+%
+with $A$ and $B$ being arbitrary constants determined by the initial conditions.
+
+
+
+
+
+\end{document}
