@@ -146,15 +146,22 @@ for i in range(len(amp)):
 for x in outl:
 	plt.axvline(x, color='r')
 
-# linear prediction
-plt.plot(omega, [psi_0/(((1-x**2)**2 + (2*gamma*x)**2)**(1/2)) for x in omega],
-		 'k--', label='Linear prediction')
+# Linear prediction
+for i in range(len(psi_0)):
+	plt.plot(omega, [psi_0/(((1-x**2)**2 + (2*gamma*x)**2)**(1/2))
+		     for x in omega], 'k--', label='Linear prediction')
 
+"""
 # asymptotic prediction
 plt.plot(omega, [psi_0/(x*(x**2 + 4*gamma**2)**(1/2)) for x in omega],
 		 'k--', label='Asymptotic prediction')
+"""
 
-plt.legend()
+# Remove duplicates in legend
+handles, labels = plt.gca().get_legend_handles_labels()
+by_label = dict(zip(labels, handles))
+plt.legend(by_label.values(), by_label.keys())
+
 plt.grid()
 plt.show()
 plt.close()
